@@ -3,6 +3,7 @@ const User = require('../Models/User');
 const bcrypt = require('bcryptjs');
 const jsonwebToken = require('jsonwebtoken');
 const CustomError = require('../Utils/CustomError')
+const Seller = require('../Models/Seller')
 
 
 exports.hello=(req,res,next)=>{
@@ -16,7 +17,7 @@ exports.hello=(req,res,next)=>{
 exports.registerUser=async(req,res,next)=>{
 
     try {
-        const{name,phoneNumber,email,password,birthdate,gender}=req.body;
+        const{name,phoneNumber,email,password,birthdate,gender,role}=req.body;
         const existUser = await User.find({email});
         
         if (existUser.length > 0) {
@@ -35,10 +36,25 @@ exports.registerUser=async(req,res,next)=>{
             email,
             password:hashPassword,
             birthdate,
-            gender
+            gender,
+            role
         });
 
         const saveuser = await newUser.save();
+
+
+        //if it is from seller
+        if(saveuser.role === "seller"){
+            const newSeller = new Seller({
+                user:saveuser._id,
+                email,
+                phoneNumber
+            })
+
+            await newSeller.save();
+        }
+
+
         const responseUser = await User.findById(saveuser._id).select('-password');
 
         const token = jsonwebToken.sign({id:saveuser._id},process.env.secretkey,

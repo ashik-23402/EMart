@@ -12,11 +12,11 @@ const SellerSchema = new Schema({
     },
     companyName:{
         type:String,
-        required:[true,"companyName needed"],
+        required:false,
     },
     contactPerson:{
         type:String,
-        required:true
+        required:false,
     },
     email:{
         type:String,
@@ -28,20 +28,20 @@ const SellerSchema = new Schema({
     },
     address:{
         type:String,
-        required:true
+        required:false
     },
     taxid:{
         type:String,
-        required:true
+        required:false
     },
     payment:{
         method:{
             type:String,
-            required:true
+            required:false
         },
         accountNumber:{
             type:String,
-            required:true
+            required:false
         }
     },
     products:[
@@ -52,7 +52,7 @@ const SellerSchema = new Schema({
     ],
     sellerStatus:{
         type:Boolean,
-        default:true
+        default:false
     },
     sellerRating:{
         type:Number,
