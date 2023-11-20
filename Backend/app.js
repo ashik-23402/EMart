@@ -19,10 +19,12 @@ app.use(cookieParser())
 
 const auth = require("./Routers/authRoute");
 const products = require("./Routers/productRoute");
+const order = require("./Routers/orderRouter");
 
 
 app.use("/api/v1",auth);
 app.use("/api/v1",products);
+app.use("/api/v1",order);
 
 
 //middleware
